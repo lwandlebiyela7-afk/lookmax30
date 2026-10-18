@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101114">
+<meta name="description" content="A free 30-day men's grooming, fitness, style and confidence challenge.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>LookMax 30</title>
+<style>
+:root{color-scheme:dark;--bg:#101114;--panel:#1d1f24;--panel2:#272a30;--text:#f4f4f5;--muted:#b1b3bc;--lime:#d7f49b;--line:#383b43;--red:#ffb4ab}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:13px;padding:12px 14px;background:var(--lime);color:#151710;font-weight:750}button:disabled{opacity:.45;cursor:not-allowed}.app{max-width:760px;margin:auto;padding:18px 16px 100px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 20px}.eyebrow{font-size:.72rem;letter-spacing:.13em;color:var(--muted);font-weight:700}.brand{font-size:1.8rem;letter-spacing:-.06em;font-weight:900;margin:2px 0}.brand span{color:var(--lime)}.sub{color:var(--muted);font-size:.92rem}.pill{border:1px solid var(--line);border-radius:16px;padding:10px 12px;text-align:center;min-width:90px}.pill strong{display:block;color:var(--lime);font-size:1.25rem}.card{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:16px;margin:12px 0}.progress{height:8px;border-radius:99px;background:#3a3c42;overflow:hidden;margin:10px 0}.progress div{height:100%;background:var(--lime);width:0%;transition:width .2s}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.tabs{display:flex;gap:8px;margin:16px 0}.tabs button{flex:1;background:var(--panel2);color:var(--text)}.tabs button.active{background:var(--lime);color:#151710}.daynav{display:flex;align-items:center;justify-content:space-between;gap:12px}.daynav button{background:var(--panel2);color:var(--text);padding:10px 14px}.daytitle{text-align:center}.daytitle strong{display:block;color:var(--lime);font-size:1.7rem}.task{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);padding:13px;border-radius:14px;margin:8px 0;cursor:pointer}.task input{accent-color:#d7f49b;width:21px;height:21px;margin-top:2px;flex-shrink:0}.task b{display:block}.task small{display:block;color:var(--muted);font-size:.87rem;margin-top:3px}.task.done{border-color:#71884e}.muted{color:var(--muted)}.hidden{display:none!important}.section-title{font-size:1.1rem;margin:18px 0 8px}.phase{border-left:3px solid var(--lime);padding:4px 0 4px 13px;margin:15px 0}.phase h3{margin:0 0 4px}.phase p{margin:0;color:var(--muted)}.tip{color:var(--muted);font-size:.86rem}.field{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#111216;color:var(--text);margin:6px 0 12px}textarea.field{min-height:90px;resize:vertical}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#452725;color:#ffe1dd}.streak{color:var(--lime);font-weight:800}.footer{margin-top:24px;color:var(--muted);font-size:.78rem;text-align:center}.checkline{display:flex;gap:10px;align-items:center}.checkline input{accent-color:var(--lime);width:20px;height:20px}
+@media(min-width:600px){.app{padding:28px 24px 70px}.brand{font-size:2.2rem}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top">
+ <div><div class="eyebrow">YOUR FREE 30-DAY CHALLENGE</div><div class="brand">LOOKMAX<span> 30</span></div><div class="sub">Better habits. Better presentation.</div></div>
+ <div class="pill"><strong id="daysDone">0/30</strong><span class="muted" style="font-size:.75rem">days complete</span></div>
+</header>
+<section class="card">
+ <div class="row"><b>Overall progress</b><b id="percent" style="color:var(--lime)">0%</b></div>
+ <div class="progress"><div id="overallBar"></div></div>
+ <div class="sub" id="progressText">Start with today's small wins.</div>
+</section>
+<nav class="tabs" aria-label="App sections">
+ <button class="active" data-tab="today">Today</button><button data-tab="plan">30-day plan</button><button data-tab="journal">Journal</button>
+</nav>
+<section id="today">
+ <div class="card">
+  <div class="daynav"><button id="prevDay" aria-label="Previous day">‹</button><div class="daytitle"><strong id="dayHeading">DAY 1</strong><span id="phaseName" class="muted">Foundation</span></div><button id="nextDay" aria-label="Next day">›</button></div>
+  <input id="daySlider" type="range" min="1" max="30" value="1" style="width:100%;accent-color:var(--lime);margin-top:15px">
+  <div class="row muted" style="font-size:.75rem"><span>Day 1</span><span>Day 15</span><span>Day 30</span></div>
+ </div>
+ <div class="row"><h2 class="section-title">Today's habits</h2><span id="taskCount" class="muted">0/6</span></div>
+ <div id="tasks"></div>
+ <button id="completeDay" style="width:100%;margin-top:8px">Mark day complete</button>
+ <p id="completeNote" class="tip"></p>
+ <div class="card"><h3 style="margin-top:0">Today's focus</h3><p id="dailyFocus" class="muted" style="margin-bottom:0"></p></div>
+</section>
+<section id="plan" class="hidden">
+ <h2>30-day roadmap</h2>
+ <p class="muted">A beginner-friendly plan. Consistency matters more than perfection.</p>
+ <div id="roadmap"></div>
+ <div class="card"><h3 style="margin-top:0">Workout guide</h3><p><b>Workout A — 2–3 rounds:</b> 8–12 squats, 5–10 incline or knee push-ups, 10 glute bridges, 20-second plank. Rest as needed.</p><p><b>Workout B — 2–3 rounds:</b> 8 reverse lunges per side, 10 backpack rows if safe, 10 calf raises, 8 bird-dogs per side.</p><p class="tip">Alternate A and B on non-consecutive days. Start easier if needed, use good form, and stop if you feel pain or dizziness. Walk or stretch on recovery days.</p></div>
+</section>
+<section id="journal" class="hidden">
+ <h2>Progress journal</h2>
+ <p class="muted">Track habits and how you feel. Photos are optional and stay on your device only if you save them there.</p>
+ <label for="mood">How do you feel today?</label>
+ <select id="mood" class="field"><option>Motivated</option><option>Okay</option><option>Tired</option><option>Stressed</option></select>
+ <label for="journalText">Notes for this day</label><textarea id="journalText" class="field" placeholder="What went well? What will you improve tomorrow?"></textarea>
+ <button id="saveJournal" style="width:100%">Save journal entry</button>
+ <p id="journalStatus" class="tip"></p>
+ <div class="card"><h3 style="margin-top:0">Your saved entry</h3><div id="savedEntry" class="muted">No journal entry for this day yet.</div></div>
+ <button id="exportData" class="secondary" style="width:100%;margin-bottom:8px">Export my progress</button>
+ <button id="resetData" class="danger" style="width:100%">Reset all app data</button>
+ <p class="tip">Export downloads a JSON backup. Reset permanently clears progress saved in this browser.</p>
+</section>
+<p class="footer">Free to use • No account • Data saved on this device/browser</p>
+</main>
+<script>
+const taskList=[
+ {title:"Morning face routine",desc:"Wash gently, moisturize if available, and use broad-spectrum SPF 30+ sunscreen when outdoors. Don't scrub aggressively."},
+ {title:"Teeth and breath",desc:"Brush for two minutes morning and night; clean between teeth if you can. Brush your tongue gently."},
+ {title:"Move your body",desc:"Follow the day’s workout or take a 20–30 minute walk. Recovery days count too."},
+ {title:"Food and hydration",desc:"Eat regular, balanced meals with protein, fruit or vegetables. Drink water to thirst; no crash diets."},
+ {title:"Hair, nails and clean clothes",desc:"Keep hair tidy, nails clean, and wear clean clothes that fit comfortably."},
+ {title:"Posture and sleep",desc:"Take 2 minutes to stand tall and relax your shoulders. Keep a steady bedtime; teens generally need 8–10 hours."}
+];
+const focus=[
+"Take a baseline note. Set up your simple routine; don't buy anything today.",
+"Notice your skin type and avoid picking or harsh scrubs.",
+"Try the beginner Workout A at an easy level.",
+"Check that your toothbrush and towel are clean.",
+"Choose one haircut or hairstyle reference that suits your hair texture.",
+"Take a relaxed walk and practice standing tall without forcing your back.",
+"Review week one: keep the habits that are realistic.",
+"Try Workout B, or take a walk if you need recovery.",
+"Plan two simple outfits from clothes you already own.",
+"Wash pillowcases and towels when practical.",
+"Practice a simple morning routine that takes under 10 minutes.",
+"Eat a balanced meal and avoid skipping meals to change your face or body.",
+"Check your posture while using your phone; bring the phone closer to eye level.",
+"Review progress without comparing yourself to edited online photos.",
+"Keep workouts controlled; prioritize technique over repetitions.",
+"Learn which clothing colours and fits you feel comfortable in.",
+"Keep grooming tools clean; don't share razors.",
+"Give your skin time. Add no more than one new product at a time.",
+"Practice speaking clearly and making comfortable eye contact.",
+"Take a recovery day if muscles are sore; gentle movement is enough.",
+"Build a simple outfit for school, work or going out.",
+"Check your sleep routine and reduce late-night scrolling if it helps.",
+"Trim or shape facial hair only if you want to; use clean tools.",
+"Repeat your most sustainable workout.",
+"Make a short list of the habits that helped you feel better.",
+"Prepare clothes and grooming basics for tomorrow.",
+"Keep skin care gentle; sunscreen is the most useful daytime protection.",
+"Practice a relaxed, upright posture and a calm walking pace.",
+"Write down three changes you noticed in habits or confidence.",
+"Review the month and choose five habits to continue."
+];
+const phases=[
+ {range:"Days 1–7",name:"Foundation",detail:"Build hygiene, sleep, gentle skincare and movement habits."},
+ {range:"Days 8–14",name:"Consistency",detail:"Repeat beginner workouts, improve outfit fit and organize your routine."},
+ {range:"Days 15–21",name:"Refinement",detail:"Work on posture, grooming details, communication and recovery."},
+ {range:"Days 22–30",name:"Make it stick",detail:"Review progress and choose sustainable habits to keep."}
+];
+const STORAGE="lookmax30_v1";
+let state={day:1,checks:{},completed:[],journal:{}};
+try{const saved=JSON.parse(localStorage.getItem(STORAGE)||"null");if(saved&&typeof saved==="object")state={...state,...saved}}catch(e){}
+const $=id=>document.getElementById(id);
+function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch(e){alert("Could not save on this browser. Export your progress and check browser storage settings.")}}
+function phaseFor(d){return d<=7?"Foundation":d<=14?"Consistency":d<=21?"Refinement":"Final polish"}
+function checkKey(){return String(state.day)}
+function currentChecks(){return state.checks[checkKey()]||[]}
+function render(){
+ $("dayHeading").textContent="DAY "+state.day;$("phaseName").textContent=phaseFor(state.day);$("daySlider").value=state.day;
+ $("prevDay").disabled=state.day===1;$("nextDay").disabled=state.day===30;
+ $("daysDone").textContent=state.completed.length+"/30";
+ const pct=Math.round(state.completed.length/30*100);$("percent").textContent=pct+"%";$("overallBar").style.width=pct+"%";
+ $("progressText").textContent=pct===100?"Challenge complete. Choose the habits you can maintain.":state.completed.length+" of 30 days completed.";
+ $("dailyFocus").textContent=focus[state.day-1];
+ const checks=currentChecks();$("taskCount").textContent=checks.length+"/"+taskList.length;
+ $("tasks").innerHTML=taskList.map((t,i)=>`<label class="task ${checks.includes(i)?"done":""}"><input type="checkbox" data-task="${i}" ${checks.includes(i)?"checked":""}><span><b>${t.title}</b><small>${t.desc}</small></span></label>`).join("");
+ $("completeDay").disabled=checks.length!==taskList.length||state.completed.includes(state.day);
+ $("completeDay").textContent=state.completed.includes(state.day)?"Day completed ✓":"Mark day complete";
+ $("completeNote").textContent=state.completed.includes(state.day)?"Day saved in your progress.":checks.length===taskList.length?"All habits checked. Mark the day complete to count it.":"Complete the habits that fit your day; you need all six checked to mark the day complete.";
+ $("roadmap").innerHTML=phases.map(p=>`<div class="phase"><h3>${p.range} · ${p.name}</h3><p>${p.detail}</p></div>`).join("");
+ const j=state.journal[checkKey()];$("mood").value=j?.mood||"Motivated";$("journalText").value=j?.text||"";$("savedEntry").textContent=j?`${j.mood}: ${j.text||"No notes added."}`:"No journal entry for this day yet.";
+ document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",!$("today").classList.contains("hidden")&&b.dataset.tab==="today"||!$("plan").classList.contains("hidden")&&b.dataset.tab==="plan"||!$("journal").classList.contains("hidden")&&b.dataset.tab==="journal"));
+}
+function switchTab(tab){["today","plan","journal"].forEach(t=>$(t).classList.toggle("hidden",t!==tab));render()}
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+$("prevDay").onclick=()=>{state.day=Math.max(1,state.day-1);persist();render()};
+$("nextDay").onclick=()=>{state.day=Math.min(30,state.day+1);persist();render()};
+$("daySlider").oninput=e=>{state.day=Number(e.target.value);persist();render()};
+$("tasks").addEventListener("change",e=>{if(!e.target.matches("[data-task]"))return;let a=currentChecks(),n=Number(e.target.dataset.task);a=e.target.checked?[...new Set([...a,n])]:a.filter(x=>x!==n);state.checks[checkKey()]=a;persist();render()});
+$("completeDay").onclick=()=>{if(currentChecks().length!==taskList.length)return;if(!state.completed.includes(state.day))state.completed.push(state.day);persist();render()};
+$("saveJournal").onclick=()=>{state.journal[checkKey()]={mood:$("mood").value,text:$("journalText").value.trim()};persist();$("journalStatus").textContent="Journal saved on this device.";render();switchTab("journal")};
+$("exportData").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="lookmax30-progress.json";a.click();URL.revokeObjectURL(url)};
+$("resetData").onclick=()=>{if(confirm("Delete all LookMax 30 progress and journal entries saved in this browser?")){state={day:1,checks:{},completed:[],journal:{}};persist();render()}};
+if("serviceWorker" in navigator && location.protocol!=="file:"){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+render();
+</script>
+</body>
+</html>
